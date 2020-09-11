@@ -90,3 +90,9 @@ kubectl drain <node>
 # (Kill Pod)
 kubectl delete node <node>
 ```
+## Clear All Docker Images and Running Containers
+
+```shell
+docker rm -vf $(docker ps -a -q)
+docker rmi -f $(docker images -a -q)
+```
