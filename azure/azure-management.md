@@ -1,4 +1,6 @@
-## Script to List Cost via Powershell
+# Microsoft Azure Cloud Command Line - Snippets
+
+## List and Output Azure Consumption
 
 ```powershell
 $accounts = az account list | ConvertFrom-Json
