@@ -28,3 +28,25 @@ foreach ($account in $accounts) {
     Write-Host "End of Subscription " $account.id $set  
 }
 ```
+
+## List and Output Advisor Recommendations
+
+```powershell
+$accounts = az account list | ConvertFrom-Json
+foreach ($account in $accounts) {
+    Write-Host "Start" $account.id
+    $objects = az advisor recommendation list --category Cost --subscription $account.id | ConvertFrom-Json
+    foreach ($obj in $objects) {
+        $output = [pscustomobject]@{
+            "Subscription" = $account.name
+            "Resource Group" = $obj.resourceGroup
+            "Impact" = $obj.impact
+            "ImpactedField" = $obj.impactedField
+            "ImpactedValue" = $obj.impactedValue
+            "Problem" = $obj.shortDescription.problem
+        }
+        $output | Export-Csv -Path ".\report.csv" -NoTypeInformation -Append         
+    }
+    Write-Host "End" $account.id
+}
+```
